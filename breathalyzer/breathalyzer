@@ -1,0 +1,46 @@
+#!/usr/bin/env python
+import sys
+import string
+
+def main():
+	acceptList = open("/var/tmp/twl06.txt").read().lower().splitlines()
+	sentence = open(sys.argv[1]).readline().split()
+	
+	totalChanges = 0
+	for word in sentence:
+		changesNeeded = 99
+		for knownWord in acceptList:
+			if compareWords(word, knownWord) < changesNeeded:
+				lev = levenshteinDistance(word, knownWord)
+				if lev < changesNeeded:
+					#print lev, " ", knownWord, " ", word
+					changesNeeded = lev
+		totalChanges += changesNeeded
+			
+	print totalChanges
+
+def compareWords(word, knownword):
+	distance = abs(len(word) - len(knownword))
+	
+
+#distance between arrays courtesy of guy with weird name.
+def levenshteinDistance(s1, s2):
+	l1 = len(s1)
+	l2 = len(s2)
+
+	levmat = [range(l1 + 1)] * (l2 + 1)
+	for zz in range(l2 + 1):
+		levmat[zz] = range(zz,zz + l1 + 1)
+	for zz in range(0,l2):
+		for sz in range(0,l1):
+			if s1[sz] == s2[zz]:
+				levmat[zz+1][sz+1] = min(levmat[zz+1][sz] + 1, levmat[zz][sz+1] + 1, levmat[zz][sz])
+			else:
+				levmat[zz+1][sz+1] = min(levmat[zz+1][sz] + 1, levmat[zz][sz+1] + 1, levmat[zz][sz] + 1)
+    
+	return levmat[l2][l1]
+
+	
+
+if __name__== "__main__":
+	main()
