@@ -1,0 +1,30 @@
+Rush Hour
+
+Getting to work in the Bay Area can be no easy task with constant construction, sporadic traffic, and even that good 'ol San Francisco fog every now and then. Being the computer guru you are, you decide to write a program to find the shortest route to work while being given live traffic updates at each intersection. Taking advantage of Thrift, you will be able to write your program in any of a number of popular languages to solve this dynamic shortest path puzzle. 
+
+
+Game Rules
+
+The rules are actually quite simple. You are given a RoadMap at the starting intersection 'I-START' which contains a set of all intersections on the map by calling getRoadConditions(). Each intersection contains its name as well as a Set of all Roads which that intersection connects. Each Road contains its name, distance, maximum speed, current speed, as well as the names of the two intersections it connects. You may call canMove() to ensure you can actually choose a road to take, then call takeRoad(1:Road road, 2:double speed) to actually choose a road toward the final destination 'I-FINISH'. 
+
+The objective of the game is to get to the destination in the shortest amount of time (calulated by current speed as well as distance traveled on a given road). The user may call getTime() at any time during gameplay to get their current time travel in seconds. In addition, we have introduced arcade style scoring so your time will be added to the scoreboard along with other peoples' scores, in order of time from fastest to slowest (Note: calling winGame() at the final intersection constitutes a correct submission - appearing in the high scores is NOT a requirement). Calling getScoreBoard() returns a string of the current standings for the game (at least until the server needs to be reset) ordered as follows. 
+
+1:puzzlemaster         1642.235562
+2:thepuzzlemaster      1967.562543
+3:testpuzzlemaster     2002.316232
+
+
+For your Thrift-based implementation of RushHour, you will be responsible to implement a client to play the game as described in this specification. Your client must be able to, given a host name and port number, establish a connection with the RushHour server, register as a player, then choose roads to take until the destination intersection is reached. All the interactions required to play the game are described in the client specification. 
+
+
+Special Submission Directions
+
+If you wish to receive credit for solving the puzzle, make sure your client calls registerClient(1:string email, 2:string name) using an email address that you control and can send email from while the name is purely for use on the scoreboard. 
+
+To solve the puzzle, build and run your client on your own host and have it connect to our Public Thrift Puzzle Server. This server has further instructions on how to use it as both a testing and evaluation tool. You are free to put any desired debugging output in your client; the server evaluates correctness only based upon your client's interactions with the remote server, not its local output. 
+
+Your client may be written in any accepted language that works with the provided Thrift library (see link below or on right side of page). 
+
+Resources
+
+You can get the version of Thrift used by the Puzzle Master by visiting the Thrift web site and downloading the appropriate archived release.
