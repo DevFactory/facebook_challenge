@@ -1,17 +1,57 @@
 #!/usr/bin/env python
+from collections import defaultdict
+import sys, string
 
+truthers = set([])
+liars = set([])
+accuse_dict = defaultdict(list)
 
 def main():
-	import sys
-	n = int(open(sys.argv[1]).readline())
-	for i in xrange(1, n + 1):
-		if i % 3 == 0 and i % 5 == 0:
-			sys.stdout.write('Hop\n')
-		elif i % 3 == 0:
-			sys.stdout.write('Hoppity\n')
-		elif i % 5 == 0:
-			sys.stdout.write('Hophop\n')
-
+	if(len(sys.argv) == 1):
+		file = 'input.txt'
+	else:
+		file = sys.argv[1]
+	f = open(file)
+	people_count = int(f.readline())
 	
+	for each_inp in xrange(0, people_count):
+		accuser_accused_count = string.split(f.readline())
+	 	for each_candi in range(0, int(accuser_accused_count[1])):
+			accused = f.readline().strip()
+			accuse_dict[accuser_accused_count[0]].append(accused)
+	
+	for accuser in accuse_dict:
+		for accused in accuse_dict[accuser]:
+			traverse(accuser, accused)
+			
+	len_truthers = len(truthers)
+	len_liars = len(liars)
+	if (len_truthers > len_liars):
+		print len_truthers, len_liars
+	else:
+		print len_liars, len_truthers
+			
+def traverse(accuser, accused):
+	if accuser in truthers and accused in liars: return
+	if accused in truthers and accuser in liars: return
+			    
+	if accuser in liars and accuser not in truthers:
+		if accused in liars:
+			return
+		else:
+			truthers.add(accused)
+	elif accused in truthers and accused not in liars:
+		if accuser in truthers:
+			return
+		else:
+			liars.add(accuser)
+	else:
+		truthers.add(accuser)
+		liars.add(accused)
+
+
+
+
+
 if __name__== "__main__":
 	main()
